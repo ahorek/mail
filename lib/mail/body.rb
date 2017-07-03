@@ -148,15 +148,14 @@ module Mail
     # identiy encoding (i.e. no encoding).
     # Calling this directly is not a good idea, but supported for compatibility
     # TODO: Validate that preamble and epilogue are valid for requested encoding
-    def encoded(transfer_encoding = '8bit')
+    def encoded(transfer_encoding = nil)
       if multipart?
         self.sort_parts!
         encoded_parts = parts.map { |p| p.encoded }
         ([preamble] + encoded_parts).join(crlf_boundary) + end_boundary + epilogue.to_s
       else
-        be = get_best_encoding(transfer_encoding)
         dec = Mail::Encodings::get_encoding(encoding)
-        enc = Mail::Encodings::get_encoding(be)
+        enc = Mail::Encodings::get_encoding(transfer_encoding || encoding)
         if dec.nil?
             # Cannot decode, so skip normalization
             raw_source
