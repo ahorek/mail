@@ -148,7 +148,7 @@ module Mail
     # identiy encoding (i.e. no encoding).
     # Calling this directly is not a good idea, but supported for compatibility
     # TODO: Validate that preamble and epilogue are valid for requested encoding
-    def encoded(transfer_encoding = '8bit')
+    def encoded(transfer_encoding = nil)
       if multipart?
         self.sort_parts!
         encoded_parts = parts.map { |p| p.encoded }
