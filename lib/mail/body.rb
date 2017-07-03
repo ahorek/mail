@@ -154,9 +154,8 @@ module Mail
         encoded_parts = parts.map { |p| p.encoded }
         ([preamble] + encoded_parts).join(crlf_boundary) + end_boundary + epilogue.to_s
       else
-        be = get_best_encoding(transfer_encoding)
         dec = Mail::Encodings::get_encoding(encoding)
-        enc = Mail::Encodings::get_encoding(be)
+        enc = Mail::Encodings::get_encoding(transfer_encoding || encoding)
         if dec.nil?
             # Cannot decode, so skip normalization
             raw_source

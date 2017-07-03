@@ -1412,9 +1412,21 @@ describe Mail::Message do
           part.body          = 'a' * 999
         end
         mail.encoded
-        
+
         expect(mail.parts.count).to eq(1)
         expect(mail.parts.last.content_transfer_encoding).to match(/7bit|8bit|binary/)
+      end
+
+      it "rfc2046 can be decoded" do
+        body = "This is NOT plain text ASCII　− かきくけこ" * 30
+        mail = Mail.new
+        mail.body << Mail::Part.new.tap do |part|
+          part.content_disposition = 'attachment; filename="test.eml"'
+          part.content_type  = 'message/rfc822'
+          part.body          = body
+        end
+
+        expect(Mail.new(mail.to_s).parts.last.decoded).to include('NOT plain')
       end
 
       describe "content-transfer-encoding" do
