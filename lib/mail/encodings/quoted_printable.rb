@@ -20,10 +20,12 @@ module Mail
       end
 
       def self.encode(str)
-        [str].pack("M").gsub(/(=0D\n|(?<!=)\n)/) do |match|
+        [str].pack("M").gsub(/(=0D=?\n|(?<!=)\n)/) do |match|
           case match
           when "=0D\n"
             "=0D=0A=\r\n"
+          when "=0D=\n"
+            "=0D=\r\n"
           when "\n"
             "=0A=\r\n"
           end
