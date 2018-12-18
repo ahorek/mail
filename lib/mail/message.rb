@@ -1503,8 +1503,10 @@ module Mail
     # Sets the charset to the supplied value.
     def charset=(value)
       @defaulted_charset = false
-      @charset = value
-      @header.charset = value
+      if value
+        @charset = value
+        @header.charset = value
+      end
     end
 
     # Returns the main content type
