@@ -1477,7 +1477,9 @@ module Mail
           warning = "Non US-ASCII detected and no charset defined.\nDefaulting to UTF-8, set your own if this is incorrect.\n"
           warn(warning)
         end
-        header[:content_type].parameters['charset'] = @charset
+        if @charset
+          header[:content_type].parameters['charset'] = @charset
+        end
       end
     end
 
@@ -1503,8 +1505,8 @@ module Mail
     # Sets the charset to the supplied value.
     def charset=(value)
       @defaulted_charset = false
+      @charset = value
       if value
-        @charset = value
         @header.charset = value
       end
     end
