@@ -65,11 +65,11 @@ module Mail
       "content-type" => ContentTypeField,
       "content-id" => ContentIdField,
       "content-location" => ContentLocationField,
-    }
+    }.compare_by_identity
 
     FIELD_NAME_MAP = FIELDS_MAP.inject({}) do |map, (field, field_klass)|
       map.update(field => field_klass::NAME)
-    end
+    end.compare_by_identity
 
     # Generic Field Exception
     class FieldError < StandardError
@@ -248,7 +248,7 @@ module Mail
       subject comments keywords
       mime-version content-type content-transfer-encoding
       content-location content-disposition content-description
-    ].each_with_index.to_a]
+    ].each_with_index.to_a].compare_by_identity
 
     private
 
