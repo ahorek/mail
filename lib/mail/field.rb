@@ -69,7 +69,7 @@ module Mail
 
     FIELD_NAME_MAP = FIELDS_MAP.inject({}) do |map, (field, field_klass)|
       map.update(field => field_klass::NAME)
-    end.compare_by_identity
+    end
 
     # Generic Field Exception
     class FieldError < StandardError
