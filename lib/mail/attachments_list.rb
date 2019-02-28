@@ -5,15 +5,15 @@ module Mail
     def initialize(parts_list)
       @parts_list = parts_list
       @content_disposition_type = 'attachment'
-      parts_list.map { |p|
+      parts_list.each do |p|
         if p.mime_type == 'message/rfc822'
-          Mail.new(p.body.encoded).attachments
+          concat Mail.new(p.body.encoded).attachments
         elsif p.parts.empty?
-          p if p.attachment?
+          self << p if p.attachment?
         else
-          p.attachments
+          concat p.attachments
         end
-      }.flatten.compact.each { |a| self << a }
+      end
       self
     end
 

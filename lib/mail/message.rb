@@ -1928,7 +1928,13 @@ module Mail
     end
 
     def all_parts
-      parts.map { |p| [p, p.all_parts] }.flatten
+      tmp = []
+      parts.each do |p|
+        tmp << p
+        sub = p.all_parts
+        tmp.concat sub unless sub.empty?
+      end
+      tmp
     end
 
     def find_first_mime_type(mt)
