@@ -248,7 +248,7 @@ module Mail
       subject comments keywords
       mime-version content-type content-transfer-encoding
       content-location content-disposition content-description
-    ].each_with_index.to_a].compare_by_identity
+    ].each_with_index.to_a]
 
     private
 
